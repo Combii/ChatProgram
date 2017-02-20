@@ -3,6 +3,7 @@ package UDP;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 
 /**
  * Created by David Stovlbaek
@@ -10,9 +11,19 @@ import java.net.InetAddress;
  */
 public class Client {
 
-    public static void sendText(int port, String ip, String message) {
+    private DatagramSocket socket;
+
+    public Client(int port) {
+        try {
+            this.socket = new DatagramSocket(port);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendText(int port, String ip, String message) {
     try {
-        DatagramSocket socket = new DatagramSocket();
+
         InetAddress netIp = InetAddress.getByName(ip);
 
         DatagramPacket dp = new DatagramPacket(message.getBytes(), message.length(), netIp, port);
