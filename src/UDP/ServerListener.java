@@ -9,10 +9,15 @@ import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class ServerListener implements Runnable{
 
+                        //Ip and port
+    private HashMap<InetAddress,Integer> users = new HashMap<>();
 
     @Override
     public void run() {
@@ -26,6 +31,16 @@ public class ServerListener implements Runnable{
         while (true) {
             DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
             socket.receive(request);
+
+            if(!users.containsKey(request.getAddress())) {
+                users.put(request.getAddress(), request.getPort());
+            }
+
+            for (Map.Entry<InetAddress, Integer> entry : users.entrySet()) {
+                System.out.println(entry.getKey());
+                System.out.println(entry.getValue());
+            }
+
             System.out.println("Message received!");
 
             String text = printData(request);
