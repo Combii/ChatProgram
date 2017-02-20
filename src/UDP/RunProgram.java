@@ -19,7 +19,7 @@ public class RunProgram extends Application{
         loader = new FXMLLoader(getClass().getResource("/UDP/textWindow.fxml"));
         Parent root = loader.load();
 
-        primaryStage.setTitle("Another CC Login");
+        primaryStage.setTitle("Chat Program");
         primaryStage.setResizable(true);
         primaryStage.setScene(new Scene(root));
         primaryStage.centerOnScreen();
