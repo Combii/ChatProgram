@@ -10,6 +10,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import java.util.Map;
 public class ServerListener implements Runnable{
 
                         //Ip and port
-    private HashMap<InetAddress,Integer> users = new HashMap<>();
+    private HashSet<Client> users = new HashSet<>();
 
     @Override
     public void run() {
@@ -32,13 +33,11 @@ public class ServerListener implements Runnable{
             DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
             socket.receive(request);
 
-            if(!users.containsKey(request.getAddress())) {
-                users.put(request.getAddress(), request.getPort());
-            }
+            
 
-            for (Map.Entry<InetAddress, Integer> entry : users.entrySet()) {
-                System.out.println(entry.getKey());
-                System.out.println(entry.getValue());
+            //If user is not in the chat room then add them
+            if(checkUser(request.getAddress())) {
+                users.add(new Client(request.getAddress(),request.getPort(),));
             }
 
             System.out.println("Message received!");
@@ -52,6 +51,16 @@ public class ServerListener implements Runnable{
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private boolean checkUser(InetAddress address) {
+
+        for (Client c : users) {
+            if(c.getIp().equals(address)) return false;
+        }
+
+        return true;
+
     }
 
     private static String printData(DatagramPacket request) throws Exception

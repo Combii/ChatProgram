@@ -30,6 +30,5 @@ public class TextWindowController {
 
 
     public void sendButton(ActionEvent actionEvent) {
-        Client.sendText(Integer.parseInt(port.getText()), hostAddress.getText(), textToSend.getText());
     }
 }

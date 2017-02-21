@@ -12,26 +12,42 @@ import java.net.SocketException;
 public class Client {
 
     private DatagramSocket socket;
+    private String username;
+    private InetAddress ip;
+    private int port;
 
-    public Client(int port) {
+    public Client(InetAddress ip, int port, String username) {
         try {
+            this.username = username;
             this.socket = new DatagramSocket(port);
+            this.ip = ip;
+            this.port = port;
         } catch (SocketException e) {
             e.printStackTrace();
         }
     }
 
-    public void sendText(int port, String ip, String message) {
-    try {
-
-        InetAddress netIp = InetAddress.getByName(ip);
-
-        DatagramPacket dp = new DatagramPacket(message.getBytes(), message.length(), netIp, port);
-        socket.send(dp);
-        System.out.println("Port: "+ port + " \nIp: " + ip + "\nSent!");
-    } catch (Exception e){
-        e.printStackTrace();
+    public int getPort () {
+        return socket.getLocalPort();
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public InetAddress getIp() {
+        return ip;
+    }
+
+    public void sendText(String message) {
+        try {
+
+            DatagramPacket dp = new DatagramPacket(message.getBytes(), message.length(), ip, port);
+            socket.send(dp);
+            System.out.println("Port: "+ port + " \nIp: " + ip + "\nSent!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
