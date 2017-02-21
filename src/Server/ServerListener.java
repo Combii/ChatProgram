@@ -1,4 +1,5 @@
-package UDP; /**
+package Server;
+/**
  * Created by David Stovlbaek
  * 16 February 2017.
  */
@@ -33,7 +34,7 @@ public class ServerListener implements Runnable{
             DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
             socket.receive(request);
 
-            
+
 
             //If user is not in the chat room then add them
             if(checkUser(request.getAddress())) {

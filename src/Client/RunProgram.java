@@ -1,4 +1,4 @@
-package Server; /**
+package Client; /**
  * Created by David Stovlbaek
  * 16 February 2017.
  */
@@ -16,7 +16,7 @@ public class RunProgram extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        loader = new FXMLLoader(getClass().getResource("/UDP/textWindow.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/Client/EnterUsername.fxml"));
         Parent root = loader.load();
 
         primaryStage.setTitle("Chat Program");
@@ -26,13 +26,13 @@ public class RunProgram extends Application{
         primaryStage.show();
     }
 
-    public static TextWindowController getController(){
+    public static TextWindowController1 getController(){
         return loader.getController();
     }
 
 
     public static void main(String[] args) {
-        Thread thread = new Thread(new ServerListener());
+        Thread thread = new Thread(new ClientListener());
         thread.start();
 
         launch(args);

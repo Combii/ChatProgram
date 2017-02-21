@@ -1,4 +1,4 @@
-package UDP;
+package Server;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -16,15 +16,18 @@ public class Client {
     private InetAddress ip;
     private int port;
 
-    public Client(InetAddress ip, int port, String username) {
+    public Client(InetAddress ip, int port) {
         try {
-            this.username = username;
             this.socket = new DatagramSocket(port);
             this.ip = ip;
             this.port = port;
         } catch (SocketException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getPort () {

@@ -1,0 +1,15 @@
+package Client;
+
+/**
+ * Created by David Stovlbaek
+ * 21 February 2017.
+ */
+public class ClientListener implements Runnable {
+
+
+    @Override
+    public void run() {
+
+
+    }
+}
