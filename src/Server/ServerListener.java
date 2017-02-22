@@ -10,15 +10,12 @@ import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.Scanner;
 
 
 public class ServerListener implements Runnable{
 
-                        //Ip and port
     private HashSet<Client> users = new HashSet<>();
 
     @Override
@@ -35,16 +32,22 @@ public class ServerListener implements Runnable{
             socket.receive(request);
 
 
-
-            //If user is not in the chat room then add them
-            if(checkUser(request.getAddress())) {
-               // users.add(new Client(request.getAddress(),request.getPort(),));
-            }
-
             System.out.println("Message received!");
 
             String text = printData(request);
+
+            //If user is not in the chat room then add them
+            if(checkUser(request.getAddress())) {
+                users.add(new Client(request.getAddress(),request.getPort(), text));
+
+                for (Client c : users){
+                    System.out.println(c);
+                }
+
+            }
+
             System.out.println(text);
+
 
             RunProgram.getController().textReceiving.setText(text);
         }
@@ -53,6 +56,8 @@ public class ServerListener implements Runnable{
             e.printStackTrace();
         }
     }
+
+
 
     private boolean checkUser(InetAddress address) {
 

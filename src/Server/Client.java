@@ -16,7 +16,7 @@ public class Client {
     private InetAddress ip;
     private int port;
 
-    public Client(InetAddress ip, int port) {
+    public Client(InetAddress ip, int port, String username) {
         try {
             this.socket = new DatagramSocket(port);
             this.ip = ip;
@@ -53,4 +53,14 @@ public class Client {
         }
     }
 
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "socket=" + socket +
+                ", username='" + username + '\'' +
+                ", ip=" + ip +
+                ", port=" + port +
+                '}';
+    }
 }

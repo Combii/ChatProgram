@@ -9,7 +9,7 @@ import java.net.*;
 public class Client {
 
     private String username;
-    private DatagramSocket socket = new DatagramSocket();
+    private DatagramSocket socket;
     private int serverPort;
     private InetAddress serverIP;
 
@@ -18,6 +18,8 @@ public class Client {
         this.username = username;
         this.serverIP = InetAddress.getByName(serverIp);
         this.serverPort = serverPort;
+        socket = ClientListener.socket;
+        sendText(username);
     }
 
 

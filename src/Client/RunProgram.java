@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.SocketException;
+
 
 public class RunProgram extends Application{
 
@@ -32,7 +34,12 @@ public class RunProgram extends Application{
 
 
     public static void main(String[] args) {
-        Thread thread = new Thread(new ClientListener());
+        Thread thread = null;
+        try {
+            thread = new Thread(new ClientListener());
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
         thread.start();
 
         launch(args);
