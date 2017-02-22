@@ -21,6 +21,7 @@ public class Client {
             this.socket = new DatagramSocket(port);
             this.ip = ip;
             this.port = port;
+            this.username = username;
         } catch (SocketException e) {
             e.printStackTrace();
         }
