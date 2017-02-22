@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,6 +17,9 @@ public class EnterUsernameController {
 
 
     public Button okButton;
+    public TextField userName;
+    public static String staticUsername = "";
+
     Stage stage;
     private Parent root;
 
@@ -23,6 +27,7 @@ public class EnterUsernameController {
     }
 
     public void okButtonClicked(ActionEvent actionEvent) {
+        staticUsername = userName.getText();
         stage = (Stage) okButton.getScene().getWindow();
         try {
             root = FXMLLoader.load(getClass().getResource("/Client/textWindow1.fxml"));
@@ -33,4 +38,6 @@ public class EnterUsernameController {
         stage.setScene(scene);
         stage.show();
     }
+
+
 }

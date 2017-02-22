@@ -38,7 +38,7 @@ public class ServerListener implements Runnable{
 
             //If user is not in the chat room then add them
             if(checkUser(request.getAddress())) {
-                users.add(new Client(request.getAddress(),request.getPort(),));
+               // users.add(new Client(request.getAddress(),request.getPort(),));
             }
 
             System.out.println("Message received!");

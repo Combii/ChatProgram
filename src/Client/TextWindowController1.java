@@ -2,9 +2,8 @@ package Client;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
@@ -13,9 +12,12 @@ import java.net.UnknownHostException;
 public class TextWindowController1 {
 
 
+    public Text username;
+
     @FXML
     public void initialize() throws UnknownHostException {
-        Client user = new Client()
+        username.setText(EnterUsernameController.staticUsername);
+       // Client user = new Client()
     }
 
     public void sendButton(ActionEvent actionEvent) {

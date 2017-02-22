@@ -5,10 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.EnterUsernameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.EnterUsernameController">
    <children>
-      <TextField fx:id="textField" layoutX="41.0" layoutY="124.0" prefHeight="27.0" prefWidth="379.0" />
+      <TextField fx:id="userName" layoutX="41.0" layoutY="124.0" prefHeight="27.0" prefWidth="379.0" />
       <Text layoutX="178.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter username " />
       <Button fx:id="okButton" layoutX="213.0" layoutY="171.0" mnemonicParsing="false" onAction="#okButtonClicked" text="Ok" />
       <Button fx:id="wow" layoutX="377.0" layoutY="233.0" mnemonicParsing="false" onAction="#wowButtonClicked" prefHeight="27.0" prefWidth="65.0" text="wow" />
