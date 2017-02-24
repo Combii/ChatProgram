@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.net.SocketException;
 
 
-public class RunProgram extends Application{
+public class RunProgramClient extends Application{
 
     private static FXMLLoader loader;
 
@@ -28,7 +28,7 @@ public class RunProgram extends Application{
         primaryStage.show();
     }
 
-    public static TextWindowController1 getController(){
+    public static ChatWindowController getController(){
         return loader.getController();
     }
 
