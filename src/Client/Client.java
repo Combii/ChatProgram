@@ -18,7 +18,7 @@ public class Client {
         this.username = username;
         this.serverIP = InetAddress.getByName(serverIp);
         this.serverPort = serverPort;
-        socket = ClientListener.socket;
+        socket = new DatagramSocket();
         sendText(username);
     }
 

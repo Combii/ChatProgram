@@ -27,6 +27,9 @@ public class ServerListener implements Runnable{
         //InetAddress ip = InetAddress.getByName("localhost");
 
         socket = new DatagramSocket(port);
+
+            System.out.println(socket.getInetAddress());
+            System.out.println(socket.getLocalAddress());
             
         while (true) {
             DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
@@ -35,8 +38,8 @@ public class ServerListener implements Runnable{
 
             System.out.println("Message received!");
 
-            String text = printData(request);
-            System.out.println(request.getAddress());
+            String text = new String(request.getData(),0,request.getLength());
+
 
             //If user is not in the chat room then add them
             if(checkUser(request.getAddress())) {
@@ -46,10 +49,9 @@ public class ServerListener implements Runnable{
                     System.out.println(c);
                 }
 
+            } else {
+                sendTextToClients(text,request.getAddress());
             }
-
-            System.out.println(text);
-
 
 
 
@@ -61,12 +63,22 @@ public class ServerListener implements Runnable{
         }
     }
 
-    private void sendTextToClients(String text){
+    private void sendTextToClients(String text, InetAddress senderAdress){
 
+
+        Client sender = identifyClient(senderAdress);
+
+        System.out.println(sender);
+
+        System.out.println(text);
+        String username = sender.getUsername();
+        text = username + ": " + text;
+        System.out.println("Sending: " + text);
 
         for (Client c : users) {
             DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(),c.getIp(),c.getPort());
             try {
+                System.out.println(c.getPort() + " " + c.getIp() + " " + c.getUsername());
                 socket.send(p);
             } catch (IOException e) {
                 System.out.println("Message could not be sent");
@@ -96,54 +108,4 @@ public class ServerListener implements Runnable{
 
     }
 
-    private static String printData(DatagramPacket request) throws Exception
-    {
-        // Obtain references to the packet's array of bytes.
-        byte[] buf = request.getData();
-        // Wrap the bytes in a byte array input stream,
-        // so that you can read the data as a stream of bytes.
-        ByteArrayInputStream bais = new ByteArrayInputStream(buf);
-        // Wrap the byte array output stream in an input stream reader,
-        // so you can read the data as a stream of characters.
-        InputStreamReader isr = new InputStreamReader(bais);
-        // Wrap the input stream reader in a bufferred reader,
-        // so you can read the character data a line at a time.
-        // (A line is a sequence of chars terminated by any combination of \r and \n.)
-        BufferedReader br = new BufferedReader(isr);
-        // The message data is contained in a single line, so read this line.
-        String line = br.readLine();
-        // Print host address and data received from it.
-
-        /*System.out.println(
-                "Received from " +
-                        request.getAddress().getHostAddress() +
-                        ": " +
-                        new String(line) );
-        */
-        return line;
-    }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-   /*
-            InetAddress clientHost = request.getAddress();
-            int clientPort = request.getPort();
-
-            String msgBack = "Hello back to you!";
-
-            DatagramPacket reply = new DatagramPacket(msgBack.getBytes(), msgBack.length(), clientHost, clientPort);
-            socket.send(reply);
-
-            System.out.println(" Reply sent.");
-     */
