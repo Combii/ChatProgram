@@ -30,7 +30,7 @@ public class EnterUsernameController {
         staticUsername = userName.getText();
         stage = (Stage) okButton.getScene().getWindow();
         try {
-            root = FXMLLoader.load(getClass().getResource("/Client/textWindow1.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/Client/ChatWindow.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

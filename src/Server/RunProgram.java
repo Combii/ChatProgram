@@ -16,7 +16,7 @@ public class RunProgram extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        loader = new FXMLLoader(getClass().getResource("/Server/textWindow.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/Server/ServerWindow.fxml"));
         Parent root = loader.load();
 
         primaryStage.setTitle("Chat Program");
@@ -26,7 +26,7 @@ public class RunProgram extends Application{
         primaryStage.show();
     }
 
-    public static TextWindowController getController(){
+    public static ServerWindowController getController(){
         return loader.getController();
     }
 

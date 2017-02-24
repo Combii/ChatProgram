@@ -4,10 +4,9 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Server.TextWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.ChatWindowController">
    <children>
       <Text layoutX="321.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Write Text:" />
       <Text layoutX="309.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host Address:" />
@@ -17,9 +16,10 @@
       <TextArea fx:id="textToSend" layoutX="321.0" layoutY="214.0" prefHeight="127.0" prefWidth="265.0" />
       <Text layoutX="35.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text Receiving:" />
       <Button layoutX="426.0" layoutY="349.0" mnemonicParsing="false" onAction="#sendButton" text="Send" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="294.0" layoutX="29.0" layoutY="62.0" stroke="BLACK" strokeType="INSIDE" width="241.0" />
-      <Text fx:id="textReceiving" layoutX="42.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="214.47216629981995" />
       <Text layoutX="375.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your IP:" />
       <Text fx:id="myIP" layoutX="428.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text layoutX="375.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
+      <Text fx:id="username" layoutX="451.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <TextArea fx:id="chatBox" layoutX="29.0" layoutY="63.0" prefHeight="279.0" prefWidth="235.0" />
    </children>
 </AnchorPane>

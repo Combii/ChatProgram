@@ -31,7 +31,8 @@ public class ClientListener implements Runnable {
                 String text = printData(request);
                 System.out.println(text);
 
-                Server.RunProgram.getController().textReceiving.setText(text);
+                RunProgramClient.getController().chatBox.appendText(text);
+
             }
 
         }catch (Exception e){

@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
  * Created by David Stovlbaek
  * 16 February 2017.
  */
-public class TextWindowController {
+public class ServerWindowController {
 
     public TextField port;
     public TextField hostAddress;
