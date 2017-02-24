@@ -6,6 +6,7 @@ package Server;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 
 public class ServerListener implements Runnable{
 
+    DatagramSocket socket;
     private HashSet<Client> users = new HashSet<>();
 
     @Override
@@ -24,7 +26,7 @@ public class ServerListener implements Runnable{
         int port = 1234;
         //InetAddress ip = InetAddress.getByName("localhost");
 
-        DatagramSocket socket = new DatagramSocket(port);
+        socket = new DatagramSocket(port);
             
         while (true) {
             DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
@@ -34,6 +36,7 @@ public class ServerListener implements Runnable{
             System.out.println("Message received!");
 
             String text = printData(request);
+            System.out.println(request.getAddress());
 
             //If user is not in the chat room then add them
             if(checkUser(request.getAddress())) {
@@ -48,6 +51,8 @@ public class ServerListener implements Runnable{
             System.out.println(text);
 
 
+
+
             RunProgram.getController().textReceiving.setText(text);
         }
 
@@ -56,6 +61,30 @@ public class ServerListener implements Runnable{
         }
     }
 
+    private void sendTextToClients(String text){
+
+
+        for (Client c : users) {
+            DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(),c.getIp(),c.getPort());
+            try {
+                socket.send(p);
+            } catch (IOException e) {
+                System.out.println("Message could not be sent");
+            }
+
+        }
+
+    }
+
+    private Client identifyClient(InetAddress ip) {
+
+        for (Client c : users) {
+            if (c.getIp().equals(ip)) return c;
+        }
+        
+        return null;
+
+    }
 
     private boolean checkUser(InetAddress address) {
 
