@@ -47,4 +47,8 @@ public class Client {
                 ", serverIP=" + serverIP +
                 '}';
     }
+
+    public InetAddress getServerIP() {
+        return serverIP;
+    }
 }

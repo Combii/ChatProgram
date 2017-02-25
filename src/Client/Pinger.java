@@ -25,7 +25,7 @@ public class Pinger implements Runnable {
 
             try {
                 //Ping server every minute
-                Thread.sleep(1000);
+                Thread.sleep(60000);
                 pingSender.sendText(pingMessage);
 
 

@@ -23,7 +23,7 @@ public class ChatWindowController {
     @FXML
     public void initialize() throws UnknownHostException, SocketException {
         username.setText(EnterUsernameController.staticUsername);
-        client = new Client(username.getText(), "localhost", 1234);
+        client = new Client(username.getText(), "172.20.10.9", 1234);
         Thread pinger = new Thread(new Pinger(client));
         pinger.start();
         chatBox.setEditable(false);
