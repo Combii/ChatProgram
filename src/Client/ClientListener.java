@@ -1,5 +1,7 @@
 package Client;
 
+import com.sun.tools.javac.comp.Enter;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
@@ -32,7 +34,7 @@ public class ClientListener implements Runnable {
                 String text = printData(request);
                 System.out.println(text);
 
-                RunProgramClient.getController().chatBox.appendText(text);
+                EnterUsernameController.getController().chatBox.appendText(text + "\n");
             }
 
         }catch (Exception e){

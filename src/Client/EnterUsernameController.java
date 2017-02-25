@@ -22,6 +22,7 @@ public class EnterUsernameController {
 
     Stage stage;
     private Parent root;
+    private static FXMLLoader loader;
 
     public void wowButtonClicked(ActionEvent actionEvent) {
     }
@@ -30,13 +31,18 @@ public class EnterUsernameController {
         staticUsername = userName.getText();
         stage = (Stage) okButton.getScene().getWindow();
         try {
-            root = FXMLLoader.load(getClass().getResource("/Client/ChatWindow.fxml"));
+            loader = new FXMLLoader(getClass().getResource("/Client/ChatWindow.fxml"));
+            root = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static ChatWindowController getController(){
+        return loader.getController();
     }
 
 

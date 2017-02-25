@@ -28,10 +28,6 @@ public class RunProgramClient extends Application{
         primaryStage.show();
     }
 
-    public static ChatWindowController getController(){
-        return loader.getController();
-    }
-
 
     public static void main(String[] args) {
         Thread thread = null;
