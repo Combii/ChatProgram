@@ -72,9 +72,6 @@ public class ServerListener implements Runnable{
         Client sender = identifyClient(senderAdress);
         text = sender.getUsername() + ": " + text;
 
-        String username = sender.getUsername();
-        text = username + ": " + text;
-
         for (Client c : users) {
             DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), c.getIp(),c.getPort());
             try {
