@@ -5,7 +5,6 @@ package Server;
  */
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -25,10 +24,15 @@ public class ServerListener implements Runnable{
         int port = 1234;
         //InetAddress ip = InetAddress.getByName("localhost");
 
-        socket = new DatagramSocket(port);
+        socket = new DatagramSocket(1234);
+
 
             System.out.println(socket.getInetAddress());
             System.out.println(socket.getLocalAddress());
+            System.out.println(socket.getPort());
+            System.out.println(socket.getLocalPort());
+
+
             
         while (true) {
             DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
@@ -42,6 +46,7 @@ public class ServerListener implements Runnable{
 
             //If user is not in the chat room then add them
             if(checkUser(request.getAddress())) {
+                System.out.println("user not in room. Adding");
                 users.add(new Client(request.getAddress(),request.getPort(), text));
 
                 for (Client c : users){
@@ -64,7 +69,10 @@ public class ServerListener implements Runnable{
 
     private void sendTextToClients(String text, InetAddress senderAdress) throws UnknownHostException {
 
+
         Client sender = identifyClient(senderAdress);
+
+
 
         System.out.println(sender);
 
@@ -73,10 +81,8 @@ public class ServerListener implements Runnable{
         text = username + ": " + text;
         System.out.println("Sending: " + text);
 
-        InetAddress inetAddress = InetAddress.getByName("192.168.1.1");
-
         for (Client c : users) {
-            DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), inetAddress,c.getPort());
+            DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), c.getIp(),c.getPort());
             try {
                 System.out.println(c.getPort() + " " + c.getIp() + " " + c.getUsername());
                 socket.send(p);
