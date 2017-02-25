@@ -1,12 +1,8 @@
 package Server;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 
@@ -16,19 +12,13 @@ import java.net.UnknownHostException;
  */
 public class ServerWindowController {
 
-    public TextField port;
-    public TextField hostAddress;
 
-    public Text textReceiving;
-    public TextArea textToSend;
-    public Text myIP;
+    public TextArea console;
 
     @FXML
     public void initialize() throws UnknownHostException {
-        myIP.setText(InetAddress.getLocalHost().getHostAddress());
+        console.setEditable(false);
+        console.appendText("-- SERVER ONLINE --" + "\n");
     }
 
-
-    public void sendButton(ActionEvent actionEvent) {
-    }
 }

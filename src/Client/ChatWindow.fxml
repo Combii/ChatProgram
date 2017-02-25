@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.ChatWindowController">
    <children>
-      <TextArea fx:id="textToSend" layoutX="29.0" layoutY="305.0" prefHeight="61.0" prefWidth="325.0" />
+      <TextArea fx:id="textToSend" layoutX="29.0" layoutY="305.0" prefHeight="61.0" prefWidth="325.0" promptText="Send Text" />
       <Text layoutX="35.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text Receiving:" />
       <Button layoutX="370.0" layoutY="322.0" mnemonicParsing="false" onAction="#sendButton" text="Send" />
       <Text layoutX="362.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />

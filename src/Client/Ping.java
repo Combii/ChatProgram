@@ -5,11 +5,11 @@ import java.net.DatagramPacket;
 /**
  * Created by BorisGrunwald on 25/02/2017.
  */
-public class Pinger implements Runnable {
+public class Ping implements Runnable {
 
     private Client pingSender;
 
-    public Pinger(Client pingSender) {
+    public Ping(Client pingSender) {
         this.pingSender = pingSender;
     }
 
@@ -25,11 +25,8 @@ public class Pinger implements Runnable {
 
             try {
                 //Ping server every minute
-                Thread.sleep(60000);
+                Thread.sleep(10000);
                 pingSender.sendText(pingMessage);
-
-
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

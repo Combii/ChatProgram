@@ -1,4 +1,4 @@
-package Client; /**
+package Server; /**
  * Created by David Stovlbaek
  * 16 February 2017.
  */
@@ -8,17 +8,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.net.SocketException;
 
-
-public class RunProgramClient extends Application{
+public class RunServer extends Application{
 
     private static FXMLLoader loader;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        loader = new FXMLLoader(getClass().getResource("/Client/EnterUsername.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/Server/ServerWindow.fxml"));
         Parent root = loader.load();
 
         primaryStage.setTitle("Chat Program");
@@ -28,20 +26,13 @@ public class RunProgramClient extends Application{
         primaryStage.show();
     }
 
+    public static ServerWindowController getController(){
+        return loader.getController();
+    }
+
 
     public static void main(String[] args) {
-        //Code to run when program close
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            ChatWindowController.getCLient().sendText("--QUIT--");
-        }, "Shutdown-thread"));
-
-
-        Thread thread = null;
-        try {
-            thread = new Thread(new ClientListener());
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
+        Thread thread = new Thread(new ServerListener());
         thread.start();
 
         launch(args);

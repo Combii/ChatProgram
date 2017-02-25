@@ -1,9 +1,6 @@
 package Server;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 
 /**
  * Created by David Stovlbaek
@@ -16,11 +13,9 @@ public class Client {
     private int port;
 
     public Client(InetAddress ip, int port, String username) {
-
             this.ip = ip;
             this.port = port;
             this.username = username;
-
     }
 
     public void setUsername(String username) {
