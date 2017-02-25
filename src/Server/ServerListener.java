@@ -46,14 +46,7 @@ public class ServerListener implements Runnable{
 
             //If user is not in the chat room then add them
             if(!isInChatRoom(request.getAddress())) {
-                System.out.println("user not in room. Adding");
-                users.add(new Client(request.getAddress(),request.getPort(), text));
 
-                for (Client c : users){
-                    System.out.println(c);
-                }
-
-            } else {
 
                 sendTextToClients(text,request.getAddress());
             }
