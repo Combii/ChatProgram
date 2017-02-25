@@ -45,7 +45,7 @@ public class ServerListener implements Runnable{
 
 
             //If user is not in the chat room then add them
-            if(checkUser(request.getAddress())) {
+            if(!isInChatRoom(request.getAddress())) {
                 System.out.println("user not in room. Adding");
                 users.add(new Client(request.getAddress(),request.getPort(), text));
 
@@ -54,6 +54,7 @@ public class ServerListener implements Runnable{
                 }
 
             } else {
+
                 sendTextToClients(text,request.getAddress());
             }
 
@@ -71,15 +72,8 @@ public class ServerListener implements Runnable{
 
 
         Client sender = identifyClient(senderAdress);
+        text = sender.getUsername() + ": " + text;
 
-
-
-        System.out.println(sender);
-
-        System.out.println(text);
-        String username = sender.getUsername();
-        text = username + ": " + text;
-        System.out.println("Sending: " + text);
 
         for (Client c : users) {
             DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), c.getIp(),c.getPort());
@@ -104,13 +98,13 @@ public class ServerListener implements Runnable{
 
     }
 
-    private boolean checkUser(InetAddress address) {
+    private boolean isInChatRoom(InetAddress address) {
 
         for (Client c : users) {
-            if(c.getIp().equals(address)) return false;
+            if(c.getIp().equals(address)) return true;
         }
 
-        return true;
+        return false;
 
     }
 
