@@ -43,11 +43,16 @@ public class ServerListener implements Runnable{
 
             String text = new String(request.getData(),0,request.getLength());
 
+            if(text.equals("PINC-CHECK")) {
+
+            }
+
 
             //If user is not in the chat room then add them
             if(!isInChatRoom(request.getAddress())) {
-
-
+                users.add(new Client(request.getAddress(), request.getPort(), text));
+            }
+            else {
                 sendTextToClients(text,request.getAddress());
             }
 
