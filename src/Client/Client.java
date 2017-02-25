@@ -19,6 +19,7 @@ public class Client {
         this.serverIP = InetAddress.getByName(serverIp);
         this.serverPort = serverPort;
         socket = ClientListener.socket;
+
         sendText(username);
     }
 
@@ -30,6 +31,10 @@ public class Client {
         return serverIP;
     }
 
+    public int getServerPort() {
+        return serverPort;
+    }
+
     public void sendText(String message) {
         try {
             DatagramPacket dp = new DatagramPacket(message.getBytes(), message.length(), serverIP, serverPort);
@@ -38,5 +43,15 @@ public class Client {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "username='" + username + '\'' +
+                ", socket=" + socket.getInetAddress() + " " + socket.getLocalAddress() + " " + socket.getLocalSocketAddress() +
+                ", serverPort=" + serverPort +
+                ", serverIP=" + serverIP +
+                '}';
     }
 }
