@@ -22,13 +22,6 @@ public class Client {
         sendText(username);
     }
 
-    public DatagramSocket getSocket() {
-        return socket;
-    }
-
-    public InetAddress getServerIP() {
-        return serverIP;
-    }
 
     public void sendText(String message) {
         try {
