@@ -28,12 +28,14 @@ public class RunProgramClient extends Application{
         primaryStage.show();
     }
 
-    public static ChatWindowController getController(){
-        return loader.getController();
-    }
-
 
     public static void main(String[] args) {
+        //Code to run when program close
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            ChatWindowController.getCLient().sendText("--QUIT--");
+        }, "Shutdown-thread"));
+
+
         Thread thread = null;
         try {
             thread = new Thread(new ClientListener());

@@ -18,10 +18,7 @@ public class ChatWindowController {
     public Text username;
     public TextArea chatBox;
     public TextArea textToSend;
-    public Text senderIP;
-    public Text listenerPort;
-
-    private Client client;
+    private static Client client;
 
     @FXML
     public void initialize() throws UnknownHostException, SocketException {
@@ -29,8 +26,13 @@ public class ChatWindowController {
         client = new Client(username.getText(), "localhost", 1234);
         Thread pinger = new Thread(new Pinger(client));
         pinger.start();
-        listenerPort.setText(String.valueOf(client.getSocket().getLocalPort()));
-        senderIP.setText(String.valueOf(client.getServerIP()));
+        chatBox.setEditable(false);
+
+
+    }
+
+    public static Client getCLient(){
+        return client;
 
     }
 
