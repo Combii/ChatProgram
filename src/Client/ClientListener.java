@@ -23,6 +23,7 @@ public class ClientListener implements Runnable {
     public void run() {
         try{
             while (true) {
+                System.out.println("Socket PORT: " + socket.getLocalPort());
                 DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
                 socket.receive(request);
 
@@ -32,7 +33,6 @@ public class ClientListener implements Runnable {
                 System.out.println(text);
 
                 RunProgramClient.getController().chatBox.appendText(text);
-
             }
 
         }catch (Exception e){

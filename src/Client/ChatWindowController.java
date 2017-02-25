@@ -25,7 +25,7 @@ public class ChatWindowController {
     @FXML
     public void initialize() throws UnknownHostException, SocketException {
         username.setText(EnterUsernameController.staticUsername);
-        client = new Client(username.getText(), "localhost", 1234);
+        client = new Client(username.getText(), "10.0.1.38", 1234);
         listenerPort.setText(String.valueOf(client.getSocket().getLocalPort()));
         senderIP.setText(String.valueOf(client.getServerIP()));
     }
