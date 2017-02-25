@@ -4,13 +4,12 @@ package Server;
  * 16 February 2017.
  */
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 
 
@@ -63,8 +62,7 @@ public class ServerListener implements Runnable{
         }
     }
 
-    private void sendTextToClients(String text, InetAddress senderAdress){
-
+    private void sendTextToClients(String text, InetAddress senderAdress) throws UnknownHostException {
 
         Client sender = identifyClient(senderAdress);
 
@@ -75,8 +73,10 @@ public class ServerListener implements Runnable{
         text = username + ": " + text;
         System.out.println("Sending: " + text);
 
+        InetAddress inetAddress = InetAddress.getByName("192.168.1.1");
+
         for (Client c : users) {
-            DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(),c.getIp(),c.getPort());
+            DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), inetAddress,c.getPort());
             try {
                 System.out.println(c.getPort() + " " + c.getIp() + " " + c.getUsername());
                 socket.send(p);

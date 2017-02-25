@@ -17,13 +17,17 @@ public class ChatWindowController {
     public Text username;
     public TextArea chatBox;
     public TextArea textToSend;
+    public Text senderIP;
+    public Text listenerPort;
 
     private Client client;
 
     @FXML
     public void initialize() throws UnknownHostException, SocketException {
         username.setText(EnterUsernameController.staticUsername);
-        client = new Client(username.getText(), "172.20.10.9", 1234);
+        client = new Client(username.getText(), "localhost", 1234);
+        listenerPort.setText(String.valueOf(client.getSocket().getLocalPort()));
+        senderIP.setText(String.valueOf(client.getServerIP()));
     }
 
     public void sendButton(ActionEvent actionEvent) {

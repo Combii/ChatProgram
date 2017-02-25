@@ -18,10 +18,17 @@ public class Client {
         this.username = username;
         this.serverIP = InetAddress.getByName(serverIp);
         this.serverPort = serverPort;
-        socket = new DatagramSocket();
+        socket = ClientListener.socket;
         sendText(username);
     }
 
+    public DatagramSocket getSocket() {
+        return socket;
+    }
+
+    public InetAddress getServerIP() {
+        return serverIP;
+    }
 
     public void sendText(String message) {
         try {

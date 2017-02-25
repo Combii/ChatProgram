@@ -1,7 +1,7 @@
 package Client;
 
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.io.IOException;
+import java.net.*;
 
 /**
  * Created by David Stovlbaek
@@ -10,11 +10,16 @@ import java.net.UnknownHostException;
 public class Tester {
     public static void main(String[] args) throws UnknownHostException {
         try {
-            Client client = new Client("David", "172.20.10.4", 1234);
-            client.sendText("Hej");
+            DatagramSocket socket = new DatagramSocket();
+            //Client client = new Client("David", "localhost", 50078);
+            InetAddress inetAddress = InetAddress.getByName("localhost");
+            DatagramPacket dp = new DatagramPacket("Hej".getBytes(), "Hej".length(), inetAddress, 50078);
+            socket.send(dp);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
