@@ -18,10 +18,6 @@ public class Client {
             this.username = username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public int getPort () {
         return port;
     }
@@ -33,8 +29,6 @@ public class Client {
     public InetAddress getIp() {
         return ip;
     }
-
-
 
 
     @Override
