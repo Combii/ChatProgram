@@ -8,7 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 
 public class RunClient extends Application{
@@ -29,10 +31,12 @@ public class RunClient extends Application{
     }
 
 
-    public static void main(String[] args) {
-        //Code to run when program close
+    public static void main(String[] args) throws SocketException, UnknownHostException {
+
+        ServerConnection conn = ServerConnection.getConn();
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            ChatWindowController.getCLient().sendText("--QUIT--");
+            conn.sendText("--QUIT--");
         }, "Shutdown-thread"));
 
 

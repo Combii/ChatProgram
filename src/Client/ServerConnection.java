@@ -16,26 +16,19 @@ public class ServerConnection {
     private static ServerConnection conn;
 
     private ServerConnection() throws UnknownHostException, SocketException {
-        conn = new ServerConnection();
+
     }
 
-    public static ServerConnection getConn(){
-        return conn;
+    public static ServerConnection getConn() throws SocketException, UnknownHostException {
+        if(conn == null) {
+            return new ServerConnection();
+        } else return conn;
+
     }
 
-
-    public DatagramPacket receivePacket() {
-        DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
-        try {
-            socket.receive(request);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return request;
+    public DatagramSocket getSocket(){
+        return socket;
     }
-
 
     public void sendText(String message) {
         try {

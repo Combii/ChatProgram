@@ -12,21 +12,27 @@ import java.util.HashSet;
 public class ServerListener implements Runnable{
 
     DatagramSocket socket;
+    DatagramPacket request;
     private final HashSet<Client> users = new HashSet<>();
 
     @Override
     public void run() {
         try{
-        socket = new DatagramSocket(1234);
+        socket = new DatagramSocket(1234,InetAddress.getByName("localhost"));
             
         while (true) {
-            DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
+            request = new DatagramPacket(new byte[1024], 1024);
+
+            System.out.println("Server is listening on port: " + socket.getLocalPort()+  " and ip: " + socket.getLocalAddress());
+
             socket.receive(request);
 
 
             System.out.println("Message received!");
 
             String text = new String(request.getData(), 0, request.getLength());
+
+            System.out.println(text);
 
             if(!isKeyWord(text,request)) {
                 new Thread(() -> {
@@ -38,6 +44,10 @@ public class ServerListener implements Runnable{
                 }).start();
             }
 
+            for (Client c : users) {
+                System.out.println(c);
+            }
+
             RunServer.getController().console.appendText(text + "\n");
 
         }
@@ -47,7 +57,7 @@ public class ServerListener implements Runnable{
     }
 
     private void sendTextToClients(String text, InetAddress senderAddress) throws UnknownHostException, SocketException {
-        DatagramSocket socket2 = new DatagramSocket();
+
 
         Client sender = identifyClient(senderAddress);
         text = sender.getUsername() + ": " + text;
@@ -56,7 +66,7 @@ public class ServerListener implements Runnable{
             DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), c.getIp(),c.getPort());
             try {
                 System.out.println("PORT SENDING: " + c.getPort() + " " + c.getIp() + " " + c.getUsername());
-                socket2.send(p);
+                socket.send(p);
             } catch (IOException e) {
                 System.out.println("Message could not be sent");
             }
@@ -87,11 +97,9 @@ public class ServerListener implements Runnable{
 
     private void respondToClient(InetAddress senderAddress, int port, String message) {
         try {
-            DatagramSocket socket2 = new DatagramSocket();
-
 
             DatagramPacket p = new DatagramPacket(message.getBytes(),message.length(), senderAddress, port);
-            socket2.send(p);
+            socket.send(p);
 
         } catch (SocketException e) {
             e.printStackTrace();
@@ -118,24 +126,26 @@ public class ServerListener implements Runnable{
 
     private boolean isKeyWord(String text, DatagramPacket request) {
 
-        switch (text) {
-            case  "PING-CHECK":
-                new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "PING-BACK")).start();
-                return true;
-            case  "--USERNAME--":
-                if (isUniqueUsername(getUsername(text))) {
-                    synchronized (users) {
-                        users.add(new Client(request.getAddress(), request.getPort(), text));
-                    }
-                    return true;
+        if(text.equals("--PING-CHECK--")) {
+            new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "PING-BACK")).start();
+            return true;
+
+        } else if (text.contains("--USERNAME--")) {
+            String username = text.replaceAll("--USERNAME--","");
+            if(isUniqueUsername(username)) {
+                synchronized (users) {
+                    System.out.println("adding");
+                    users.add(new Client(request.getAddress(), request.getPort(), username));
                 }
-                else
-                    new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "USERNAME-NOT-AVAILABLE")).start();
-                return true;
-            case "--QUIT--":
-                removeUser(request.getAddress());
-                return true;
+            } else {
+                new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "--USERNAME-IS-TAKEN--")).start();
+            }
+            return true;
+        } else if (text.equals("--QUIT--")) {
+            removeUser(request.getAddress());
+            return true;
         }
+
         return false;
     }
 

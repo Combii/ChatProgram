@@ -4,6 +4,7 @@ package Client;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 /**
  * Created by David Stovlbaek
@@ -12,16 +13,25 @@ import java.net.SocketException;
 public class ClientListener implements Runnable {
 
    ServerConnection conn = ServerConnection.getConn();
+   DatagramSocket socket;
 
-    public ClientListener() throws SocketException {
+    public ClientListener() throws SocketException, UnknownHostException {
     }
 
     @Override
     public void run() {
+
+        socket = conn.getSocket();
+
+        System.out.println(socket.getLocalPort());
+
         try{
+
             while (true) {
 
-                DatagramPacket request = conn.receivePacket();
+                DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
+
+                socket.receive(request);
 
                 System.out.println("Message received!");
 

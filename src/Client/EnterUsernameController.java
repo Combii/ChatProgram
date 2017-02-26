@@ -31,11 +31,11 @@ public class EnterUsernameController {
     public void wowButtonClicked(ActionEvent actionEvent) {
     }
 
-    public void okButtonClicked(ActionEvent actionEvent) {
+    public void okButtonClicked(ActionEvent actionEvent) throws SocketException, UnknownHostException {
         if(!checkUsernameValid(userName.getText())){
             warningMessage.setText("Username must be max 12 chars long, only letters, digits, ‘-‘ and ‘_’ allowed!");
         }
-        else if(checkUsernameValid(userName.getText())){
+        else if(checkUsernameIsUnique(userName.getText())){
             staticUsername = userName.getText();
 
             stage = (Stage) okButton.getScene().getWindow();
@@ -63,8 +63,11 @@ public class EnterUsernameController {
     }
 
     private boolean checkUsernameIsUnique(String userName) throws SocketException, UnknownHostException {
+
         ServerConnection conn = ServerConnection.getConn();
-        conn.sendText(userName);
+        conn.sendText("--USERNAME--" + userName);
+
+        return false;
 
     }
 }

@@ -19,12 +19,13 @@ public class ChatWindowController {
     public TextArea textToSend;
     private static Client client;
 
+
     @FXML
     public void initialize() throws UnknownHostException, SocketException {
         chatBox.setEditable(false);
         username.setText(EnterUsernameController.staticUsername);
         client = new Client(username.getText(), "localhost", 1234);
-        Thread pinger = new Thread(new Ping(client));
+        Thread pinger = new Thread(new Ping());
         pinger.start();
     }
 
@@ -33,8 +34,9 @@ public class ChatWindowController {
 
     }
 
-    public void sendButton(ActionEvent actionEvent) {
-        client.sendText(textToSend.getText());
+    public void sendButton(ActionEvent actionEvent) throws SocketException, UnknownHostException {
+        ServerConnection conn = ServerConnection.getConn();
+        conn.sendText(textToSend.getText());
     }
 
 
