@@ -26,34 +26,21 @@ public class ServerListener implements Runnable{
 
             System.out.println("Message received!");
 
-            String text = new String(request.getData(),0,request.getLength());
+            String text = new String(request.getData(), 0, request.getLength());
 
-            if(text.equals("PING-CHECK")) {
-                new Thread(() -> pingBack(request.getAddress(), request.getPort())).start();
-            }
-            else if(text.equals("--QUIT--")){
-                removeUser(request.getAddress());
-            }
-            else {
-
-                //If user is not in the chat room then add them
-                if (!isInChatRoom(request.getAddress())) {
-                    synchronized (users) {
-                        users.add(new Client(request.getAddress(), request.getPort(), text));
+            if(!isKeyWord(text,request)) {
+                new Thread(() -> {
+                    try {
+                        sendTextToClients(text, request.getAddress());
+                    } catch (UnknownHostException | SocketException e) {
+                        e.printStackTrace();
                     }
-                } else {
-                    new Thread(() -> {
-                        try {
-                            sendTextToClients(text, request.getAddress());
-                        } catch (UnknownHostException | SocketException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-                }
+                }).start();
             }
-            RunServer.getController().console.appendText(text + "\n");
-        }
 
+            RunServer.getController().console.appendText(text + "\n");
+
+        }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -98,13 +85,12 @@ public class ServerListener implements Runnable{
 
     }
 
-    private void pingBack(InetAddress senderAddress, int port) {
+    private void respondToClient(InetAddress senderAddress, int port, String message) {
         try {
             DatagramSocket socket2 = new DatagramSocket();
 
-            String text = "PING-BACK";
 
-            DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), senderAddress, port);
+            DatagramPacket p = new DatagramPacket(message.getBytes(),message.length(), senderAddress, port);
             socket2.send(p);
 
         } catch (SocketException e) {
@@ -120,6 +106,41 @@ public class ServerListener implements Runnable{
                 users.remove(c);
             }
         }
+    }
+
+    private boolean isUniqueUsername(String username) {
+
+        for (Client c : users) {
+            if(c.getUsername().equals(username)) return false;
+        }
+        return true;
+    }
+
+    private boolean isKeyWord(String text, DatagramPacket request) {
+
+        switch (text) {
+            case  "PING-CHECK":
+                new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "PING-BACK")).start();
+                return true;
+            case  "--USERNAME--":
+                if (isUniqueUsername(getUsername(text))) {
+                    synchronized (users) {
+                        users.add(new Client(request.getAddress(), request.getPort(), text));
+                    }
+                    return true;
+                }
+                else
+                    new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "USERNAME-NOT-AVAILABLE")).start();
+                return true;
+            case "--QUIT--":
+                removeUser(request.getAddress());
+                return true;
+        }
+        return false;
+    }
+
+    private String getUsername(String receivedMessage){
+        return receivedMessage.substring(12,receivedMessage.length()-1);
     }
 
 }

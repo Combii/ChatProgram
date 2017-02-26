@@ -11,23 +11,23 @@ import java.net.SocketException;
  */
 public class ClientListener implements Runnable {
 
-   static DatagramSocket socket;
+   ServerConnection conn = ServerConnection.getConn();
 
     public ClientListener() throws SocketException {
-        socket = new DatagramSocket();
     }
 
     @Override
     public void run() {
         try{
             while (true) {
-                System.out.println("Socket PORT: " + socket.getLocalPort());
-                DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
-                socket.receive(request);
+
+                DatagramPacket request = conn.receivePacket();
 
                 System.out.println("Message received!");
 
                 String text = new String(request.getData(),0,request.getLength());
+
+                //if(isServerResponse(text))
                 System.out.println(text);
 
                 EnterUsernameController.getController().chatBox.appendText(text + "\n");
@@ -37,6 +37,12 @@ public class ClientListener implements Runnable {
             e.printStackTrace();
         }
     }
+
+
+    /*public boolean isServerResponse(String text) {
+
+
+    }*/
 
 
 }

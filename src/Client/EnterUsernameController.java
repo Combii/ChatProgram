@@ -10,6 +10,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 /**
  * Created by BorisGrunwald on 21/02/2017.
@@ -33,7 +35,7 @@ public class EnterUsernameController {
         if(!checkUsernameValid(userName.getText())){
             warningMessage.setText("Username must be max 12 chars long, only letters, digits, ‘-‘ and ‘_’ allowed!");
         }
-        else {
+        else if(checkUsernameValid(userName.getText())){
             staticUsername = userName.getText();
 
             stage = (Stage) okButton.getScene().getWindow();
@@ -47,6 +49,9 @@ public class EnterUsernameController {
             stage.setScene(scene);
             stage.show();
         }
+        else{
+            warningMessage.setText("Username already taken");
+        }
     }
 
     public static ChatWindowController getController(){
@@ -55,5 +60,11 @@ public class EnterUsernameController {
 
     private boolean checkUsernameValid(String userName){
         return userName.matches("^[a-zA-Z0-9_-]*$") && userName.length() <= 12 && userName.length() != 0;
+    }
+
+    private boolean checkUsernameIsUnique(String userName) throws SocketException, UnknownHostException {
+        ServerConnection conn = ServerConnection.getConn();
+        conn.sendText(userName);
+
     }
 }
