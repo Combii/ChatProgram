@@ -40,4 +40,7 @@ public class ChatWindowController {
     }
 
 
+    public void quitButton(ActionEvent actionEvent) {
+        System.exit(0);
+    }
 }
