@@ -97,10 +97,8 @@ public class ServerListener implements Runnable{
 
     private void respondToClient(InetAddress senderAddress, int port, String message) {
         try {
-
             DatagramPacket p = new DatagramPacket(message.getBytes(),message.length(), senderAddress, port);
             socket.send(p);
-
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -117,7 +115,6 @@ public class ServerListener implements Runnable{
     }
 
     private boolean isUniqueUsername(String username) {
-
         for (Client c : users) {
             if(c.getUsername().equals(username)) return false;
         }
@@ -130,12 +127,13 @@ public class ServerListener implements Runnable{
             new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "PING-BACK")).start();
             return true;
 
-        } else if (text.contains("--USERNAME--")) {
+        } else if(text.contains("--USERNAME--")) {
             String username = text.replaceAll("--USERNAME--","");
             if(isUniqueUsername(username)) {
                 synchronized (users) {
                     System.out.println("adding");
                     users.add(new Client(request.getAddress(), request.getPort(), username));
+                    new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "--USERNAME-IS-AVAILABLE--")).start();
                 }
             } else {
                 new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "--USERNAME-IS-TAKEN--")).start();

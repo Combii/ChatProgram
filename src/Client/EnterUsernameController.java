@@ -63,11 +63,15 @@ public class EnterUsernameController {
     }
 
     private boolean checkUsernameIsUnique(String userName) throws SocketException, UnknownHostException {
+        ClientListener listener = new ClientListener();
 
         ServerConnection conn = ServerConnection.getConn();
         conn.sendText("--USERNAME--" + userName);
 
-        return false;
 
+        String receiveText = listener.receiveMessage();
+        System.out.println(receiveText);
+
+        return listener.isServerResponse(receiveText);
     }
 }
