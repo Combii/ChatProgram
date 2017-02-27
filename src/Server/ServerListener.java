@@ -4,7 +4,9 @@ package Server;
  * 16 February 2017.
  */
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.HashSet;
 
@@ -95,6 +97,20 @@ public class ServerListener implements Runnable{
 
     }
 
+    public void sendUsers() throws IOException {
+
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream(6400);
+        final ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(users);
+        final byte[] data = baos.toByteArray();
+
+        for (Client c : users) {
+
+            final DatagramPacket packet = new DatagramPacket(data, data.length, c.getIp(),c.getPort());
+
+        }
+    }
+
     private void respondToClient(InetAddress senderAddress, int port, String message) {
         try {
             DatagramPacket p = new DatagramPacket(message.getBytes(),message.length(), senderAddress, port);
@@ -121,7 +137,7 @@ public class ServerListener implements Runnable{
         return true;
     }
 
-    private boolean isKeyWord(String text, DatagramPacket request) {
+    private boolean isKeyWord(String text, DatagramPacket request) throws IOException {
 
         if(text.equals("--PING-CHECK--")) {
             new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "PING-BACK")).start();
@@ -134,6 +150,7 @@ public class ServerListener implements Runnable{
                     System.out.println("adding");
                     users.add(new Client(request.getAddress(), request.getPort(), username));
                     new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "--USERNAME-IS-AVAILABLE--")).start();
+                    sendUsers();
                 }
             } else {
                 new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "--USERNAME-IS-TAKEN--")).start();
@@ -141,6 +158,7 @@ public class ServerListener implements Runnable{
             return true;
         } else if (text.equals("--QUIT--")) {
             removeUser(request.getAddress());
+            sendUsers();
             return true;
         }
 
