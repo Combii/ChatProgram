@@ -140,7 +140,7 @@ public class ServerListener implements Runnable{
     private boolean isKeyWord(String text, DatagramPacket request) throws IOException {
 
         if(text.equals("--PING-CHECK--")) {
-            new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "PING-BACK")).start();
+            new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "ALVE")).start();
             return true;
 
         } else if(text.contains("--USERNAME--")) {
@@ -149,11 +149,11 @@ public class ServerListener implements Runnable{
                 synchronized (users) {
                     System.out.println("adding");
                     users.add(new Client(request.getAddress(), request.getPort(), username));
-                    new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "--USERNAME-IS-AVAILABLE--")).start();
-                    sendUsers();
+                    new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_OK")).start();
+                    //sendUsers();
                 }
             } else {
-                new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "--USERNAME-IS-TAKEN--")).start();
+                new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_ERR")).start();
             }
             return true;
         } else if (text.equals("--QUIT--")) {
