@@ -60,7 +60,6 @@ public class ServerListener implements Runnable{
 
     private void sendTextToClients(String text, InetAddress senderAddress) throws UnknownHostException, SocketException {
 
-
         Client sender = identifyClient(senderAddress);
         text = sender.getUsername() + ": " + text;
 

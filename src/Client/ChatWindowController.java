@@ -39,7 +39,6 @@ public class ChatWindowController {
         conn.sendText(textToSend.getText());
     }
 
-
     public void quitButton(ActionEvent actionEvent) {
         System.exit(0);
     }
