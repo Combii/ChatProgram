@@ -17,14 +17,12 @@ public class ChatWindowController {
     public Text username;
     public TextArea chatBox;
     public TextArea textToSend;
-    private static Client client;
 
 
     @FXML
     public void initialize() throws UnknownHostException, SocketException {
         chatBox.setEditable(false);
         username.setText(EnterUsernameController.staticUsername);
-        client = new Client(username.getText(), "localhost", 1234);
         Thread ping = new Thread(new Ping());
         ping.start();
 

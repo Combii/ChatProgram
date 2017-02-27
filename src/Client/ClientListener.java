@@ -21,17 +21,16 @@ public class ClientListener implements Runnable {
     @Override
     public void run() {
         System.out.println(socket.getLocalPort());
+                while (true) {
+                    String text = receiveMessage();
 
-            while (true) {
-                String text = receiveMessage();
+                    if (text != null) {
+                        System.out.println("Message received!");
+                        System.out.println(text);
 
-                if(text != null) {
-                    System.out.println("Message received!");
-                    System.out.println(text);
-
-                    EnterUsernameController.getController().chatBox.appendText(text + "\n");
+                        EnterUsernameController.getController().chatBox.appendText(text + "\n");
+                    }
                 }
-            }
     }
 
     public String receiveMessage(){
