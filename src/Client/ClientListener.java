@@ -13,10 +13,9 @@ import java.net.UnknownHostException;
 public class ClientListener implements Runnable {
 
    ServerConnection conn = ServerConnection.getConn();
-   DatagramSocket socket;
+   DatagramSocket socket = conn.getSocket();
 
     public ClientListener() throws SocketException, UnknownHostException {
-        socket = conn.getSocket();
     }
 
     @Override
@@ -39,7 +38,9 @@ public class ClientListener implements Runnable {
             try {
                 DatagramPacket request = new DatagramPacket(new byte[1024], 1024);
                 socket.receive(request);
-                return new String(request.getData(), 0, request.getLength());
+                String text = new String(request.getData(), 0, request.getLength());
+                System.out.println("Received Text: " + text);
+                return text;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -51,7 +52,6 @@ public class ClientListener implements Runnable {
             return false;
         else if(checkWord.equals("--USERNAME-IS-AVAILABLE--"))
         return true;
-
         return false;
     }
 
