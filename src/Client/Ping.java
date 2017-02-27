@@ -23,7 +23,7 @@ public class Ping implements Runnable {
         while (true) {
             try {
                 //Ping server every minute
-                Thread.sleep(1000);
+                Thread.sleep(10000);
                 conn.sendText(pingMessage);
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -39,15 +39,6 @@ public class RunClient extends Application{
             conn.sendText("--QUIT--");
         }, "Shutdown-thread"));
 
-
-        Thread thread = null;
-        try {
-            thread = new Thread(new ClientListener());
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        thread.start();
-
         launch(args);
     }
 }

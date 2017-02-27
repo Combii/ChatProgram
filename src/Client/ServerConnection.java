@@ -21,7 +21,8 @@ public class ServerConnection {
 
     public static ServerConnection getConn() throws SocketException, UnknownHostException {
         if(conn == null) {
-            return new ServerConnection();
+            conn = new ServerConnection();
+            return conn;
         } else return conn;
 
     }

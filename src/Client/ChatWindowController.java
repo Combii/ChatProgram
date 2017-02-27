@@ -17,21 +17,21 @@ public class ChatWindowController {
     public Text username;
     public TextArea chatBox;
     public TextArea textToSend;
-    private static Client client;
 
 
     @FXML
     public void initialize() throws UnknownHostException, SocketException {
         chatBox.setEditable(false);
         username.setText(EnterUsernameController.staticUsername);
-        client = new Client(username.getText(), "localhost", 1234);
-        Thread pinger = new Thread(new Ping());
-        pinger.start();
-    }
+        Thread ping = new Thread(new Ping());
+        ping.start();
 
-    public static Client getCLient(){
-        return client;
-
+        try {
+         Thread thread = new Thread(new ClientListener());
+         thread.start();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendButton(ActionEvent actionEvent) throws SocketException, UnknownHostException {
