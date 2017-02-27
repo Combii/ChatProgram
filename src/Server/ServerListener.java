@@ -83,7 +83,6 @@ public class ServerListener implements Runnable{
         }
         
         return null;
-
     }
 
     private boolean isInChatRoom(InetAddress address) {
