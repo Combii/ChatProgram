@@ -11,7 +11,7 @@ public class Ping implements Runnable {
 
     ServerConnection conn = ServerConnection.getConn();
 
-    static boolean responeFromServer = false;
+    static boolean responseFromServer = false;
 
     public Ping() throws SocketException, UnknownHostException {
     }
@@ -23,13 +23,13 @@ public class Ping implements Runnable {
         String pingMessage = "--PING-CHECK--";
 
         while (true) {
-            try {
+            try {   
                 //Ping server every minute
                 Thread.sleep(10000);
                 conn.sendText(pingMessage);
                 //Wait for response
                 Thread.sleep(5000);
-                if (!responeFromServer)
+                if (!responseFromServer)
                     EnterUsernameController.getController().chatBox.appendText("--SERVER-IS-OFFLINE--\n");
             } catch (InterruptedException e) {
                 e.printStackTrace();
