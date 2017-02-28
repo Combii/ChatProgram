@@ -25,6 +25,16 @@ public class Ping implements Runnable {
                 //Ping server every minute
                 Thread.sleep(10000);
                 conn.sendText(pingMessage);
+                /*
+                try {
+                    String messsage = new ClientListener().receiveMessage();
+                    if(messsage.equals("ALVE")){
+
+                    }
+                } catch (SocketException | UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                */
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

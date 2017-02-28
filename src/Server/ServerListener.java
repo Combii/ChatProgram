@@ -60,8 +60,6 @@ public class ServerListener implements Runnable{
 
     private void sendTextToClients(String text, InetAddress senderAddress) throws UnknownHostException, SocketException {
 
-        Client sender = identifyClient(senderAddress);
-
         for (Client c : users) {
             DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), c.getIp(),c.getPort());
             try {
@@ -70,7 +68,6 @@ public class ServerListener implements Runnable{
             } catch (IOException e) {
                 System.out.println("Message could not be sent");
             }
-
         }
 
     }
