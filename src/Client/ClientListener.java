@@ -24,14 +24,12 @@ public class ClientListener implements Runnable {
                     String text = receiveMessage();
 
                     if (text.equals("ALVE")) {
-                    Ping.responeFromServer = true;
+                    Ping.responseFromServer = true;
                     }
 
-                    if (text != null) {
-                        System.out.println(text);
+                    System.out.println(text);
 
-                        EnterUsernameController.getController().chatBox.appendText(text + "\n");
-                    }
+                    EnterUsernameController.getController().chatBox.appendText(text + "\n");
                 }
     }
 

@@ -23,7 +23,7 @@ public class Ping implements Runnable {
         String pingMessage = "--PING-CHECK--";
 
         while (true) {
-            try {   
+            try {
                 //Ping server every minute
                 Thread.sleep(10000);
                 conn.sendText(pingMessage);
