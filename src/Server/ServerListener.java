@@ -70,28 +70,29 @@ public class ServerListener implements Runnable{
 
     }
 
-    public void sendUsers() throws IOException {
+    private synchronized void sendUsers() {
 
         String usernames = "--USERNAMES--" + getUsernames();
 
         for (Client c : users) {
-
             DatagramPacket p = new DatagramPacket(usernames.getBytes(),usernames.length(),c.getIp(),c.getPort());
-            socket.send(p);
+            try {
+                socket.send(p);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
     }
     
-    private String getUsernames() {
+    private synchronized String getUsernames() {
 
-        String usernames = "";
+        String userNames = "";
 
         for (Client c : users) {
-            usernames += c.getUsername() + " ";
-
+            userNames += c.getUsername() + "\n";
         }
 
-        return usernames;
+        return userNames;
 
     }
 
@@ -132,7 +133,7 @@ public class ServerListener implements Runnable{
                     System.out.println("adding");
                     users.add(new Client(request.getAddress(), request.getPort(), username));
                     new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_OK")).start();
-                    //sendUsers();
+                    new Thread(this::sendUsers).start();
                 }
             } else {
                 new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_ERR")).start();
@@ -140,7 +141,7 @@ public class ServerListener implements Runnable{
             return true;
         } else if (text.contains("--QUIT--")) {
             removeUser(request.getAddress());
-            sendUsers();
+            new Thread(this::sendUsers).start();
             return true;
         }
         return false;

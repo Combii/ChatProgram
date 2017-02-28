@@ -17,6 +17,7 @@ public class ChatWindowController {
     public Text username;
     public TextArea chatBox;
     public TextArea textToSend;
+    public TextArea onlineUsers;
 
 
     @FXML
@@ -40,7 +41,9 @@ public class ChatWindowController {
         textToSend.clear();
     }
 
-    public void quitButton(ActionEvent actionEvent) {
+    public void quitButton(ActionEvent actionEvent) throws SocketException, UnknownHostException {
+        ServerConnection conn = ServerConnection.getConn();
+        conn.sendText("--QUIT--");
         System.exit(0);
     }
 }

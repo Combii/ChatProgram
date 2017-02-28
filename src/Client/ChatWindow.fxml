@@ -10,9 +10,11 @@
       <TextArea fx:id="textToSend" layoutX="29.0" layoutY="305.0" prefHeight="61.0" prefWidth="325.0" promptText="Send Text" />
       <Text layoutX="35.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text Receiving:" />
       <Button layoutX="370.0" layoutY="322.0" mnemonicParsing="false" onAction="#sendButton" text="Send" />
-      <Text layoutX="362.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
-      <Text fx:id="username" layoutX="438.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <TextArea fx:id="chatBox" layoutX="29.0" layoutY="63.0" prefHeight="225.0" prefWidth="591.0" />
+      <Text layoutX="199.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
+      <Text fx:id="username" layoutX="275.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <TextArea fx:id="chatBox" layoutX="29.0" layoutY="63.0" prefHeight="225.0" prefWidth="395.0" />
       <Button layoutX="542.0" layoutY="322.0" mnemonicParsing="false" onAction="#quitButton" text="Quit" />
+      <TextArea fx:id="onlineUsers" layoutX="449.0" layoutY="63.0" prefHeight="225.0" prefWidth="178.0" />
+      <Text layoutX="449.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users Online:" />
    </children>
 </AnchorPane>
