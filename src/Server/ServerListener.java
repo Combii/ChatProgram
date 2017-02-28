@@ -87,7 +87,7 @@ public class ServerListener implements Runnable{
         String usernames = "";
 
         for (Client c : users) {
-            usernames += c.getUsername();
+            usernames += c.getUsername() + " ";
 
         }
 
