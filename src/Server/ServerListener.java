@@ -148,7 +148,7 @@ public class ServerListener implements Runnable{
     }
 
 
-    
+
     private synchronized Client identifyClient(InetAddress ip) {
 
         for (Client c : users) {
