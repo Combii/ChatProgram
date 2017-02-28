@@ -20,7 +20,6 @@ public class ClientListener implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(socket.getLocalPort());
                 while (true) {
                     String text = receiveMessage();
 

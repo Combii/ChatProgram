@@ -15,7 +15,6 @@ public class ServerConnection {
     private static ServerConnection conn;
 
     private ServerConnection() throws UnknownHostException, SocketException {
-
     }
 
     public static ServerConnection getConn() throws SocketException, UnknownHostException {
@@ -32,6 +31,9 @@ public class ServerConnection {
 
     public void sendText(String message) {
         try {
+            if(EnterUsernameController.staticUsername.length() != 0)
+            message = EnterUsernameController.staticUsername + ": " + message;
+
             DatagramPacket dp = new DatagramPacket(message.getBytes(), message.length(), serverIP, serverPort);
             socket.send(dp);
             System.out.println("Port: "+ serverPort + " \nIp: " + serverIP + "\nSent!");

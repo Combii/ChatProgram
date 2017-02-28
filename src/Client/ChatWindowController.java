@@ -37,6 +37,7 @@ public class ChatWindowController {
     public void sendButton(ActionEvent actionEvent) throws SocketException, UnknownHostException {
         ServerConnection conn = ServerConnection.getConn();
         conn.sendText(textToSend.getText());
+        textToSend.clear();
     }
 
     public void quitButton(ActionEvent actionEvent) {

@@ -61,7 +61,6 @@ public class ServerListener implements Runnable{
     private void sendTextToClients(String text, InetAddress senderAddress) throws UnknownHostException, SocketException {
 
         Client sender = identifyClient(senderAddress);
-        text = sender.getUsername() + ": " + text;
 
         for (Client c : users) {
             DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), c.getIp(),c.getPort());
@@ -95,6 +94,16 @@ public class ServerListener implements Runnable{
 
     }
 
+    private synchronized Client identifyClientByUsername(String username) {
+
+        for (Client c : users) {
+            if (c.getUsername().equals(username)) return c;
+        }
+
+        return null;
+    }
+
+
     public void sendUsers() throws IOException {
 
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(6400);
@@ -103,9 +112,7 @@ public class ServerListener implements Runnable{
         final byte[] data = baos.toByteArray();
 
         for (Client c : users) {
-
             final DatagramPacket packet = new DatagramPacket(data, data.length, c.getIp(),c.getPort());
-
         }
     }
 
@@ -137,7 +144,7 @@ public class ServerListener implements Runnable{
 
     private boolean isKeyWord(String text, DatagramPacket request) throws IOException {
 
-        if(text.equals("--PING-CHECK--")) {
+        if(text.contains("--PING-CHECK--")) {
             new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "ALVE")).start();
             return true;
 
@@ -154,7 +161,7 @@ public class ServerListener implements Runnable{
                 new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_ERR")).start();
             }
             return true;
-        } else if (text.equals("--QUIT--")) {
+        } else if (text.contains("--QUIT--")) {
             removeUser(request.getAddress());
             sendUsers();
             return true;
