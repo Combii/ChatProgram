@@ -4,9 +4,7 @@ package Server;
  * 16 February 2017.
  */
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.HashSet;
 
@@ -72,31 +70,6 @@ public class ServerListener implements Runnable{
 
     }
 
-    private synchronized Client identifyClient(InetAddress ip) {
-
-        for (Client c : users) {
-            if (c.getIp().equals(ip)) return c;
-        }
-        
-        return null;
-    }
-
-    private boolean isInChatRoom(InetAddress address) {
-        for (Client c : users) {
-            if(c.getIp().equals(address)) return true;
-        }
-        return false;
-    }
-
-    private synchronized Client identifyClientByUsername(String username) {
-        for (Client c : users) {
-            if (c.getUsername().equals(username)) return c;
-        }
-        return null;
-    }
-
-
-
     public void sendUsers() throws IOException {
 
         String usernames = "--USERNAMES--" + getUsernames();
@@ -126,8 +99,6 @@ public class ServerListener implements Runnable{
         try {
             DatagramPacket p = new DatagramPacket(message.getBytes(),message.length(), senderAddress, port);
             socket.send(p);
-        } catch (SocketException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -176,8 +147,27 @@ public class ServerListener implements Runnable{
         return false;
     }
 
-    private String getUsername(String receivedMessage){
-        return receivedMessage.substring(12,receivedMessage.length()-1);
+
+    
+    private synchronized Client identifyClient(InetAddress ip) {
+
+        for (Client c : users) {
+            if (c.getIp().equals(ip)) return c;
+        }
+
+        return null;
+    }
+    private boolean isInChatRoom(InetAddress address) {
+        for (Client c : users) {
+            if(c.getIp().equals(address)) return true;
+        }
+        return false;
+    }
+    private synchronized Client identifyClientByUsername(String username) {
+        for (Client c : users) {
+            if (c.getUsername().equals(username)) return c;
+        }
+        return null;
     }
 
 }
