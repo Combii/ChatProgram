@@ -23,14 +23,19 @@ public class ClientListener implements Runnable {
                 while (true) {
                     String text = receiveMessage();
 
+                    if (text.equals("ALVE")) {
+                    Ping.responeFromServer = true;
+                    }
+
                     if (text != null) {
-                        System.out.println("Message received!");
                         System.out.println(text);
 
                         EnterUsernameController.getController().chatBox.appendText(text + "\n");
                     }
                 }
     }
+
+
 
     public String receiveMessage(){
             try {

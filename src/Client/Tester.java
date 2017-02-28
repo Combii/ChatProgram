@@ -15,10 +15,6 @@ public class Tester {
             InetAddress inetAddress = InetAddress.getByName("localhost");
             DatagramPacket dp = new DatagramPacket("Hej".getBytes(), "Hej".length(), inetAddress, 50078);
             socket.send(dp);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (SocketException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
