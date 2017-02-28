@@ -85,21 +85,16 @@ public class ServerListener implements Runnable{
     }
 
     private boolean isInChatRoom(InetAddress address) {
-
         for (Client c : users) {
             if(c.getIp().equals(address)) return true;
         }
-
         return false;
-
     }
 
     private synchronized Client identifyClientByUsername(String username) {
-
         for (Client c : users) {
             if (c.getUsername().equals(username)) return c;
         }
-
         return null;
     }
 
