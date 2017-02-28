@@ -20,7 +20,6 @@ public class ClientListener implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(socket.getLocalPort());
                 while (true) {
                     String text = receiveMessage();
 
@@ -47,9 +46,9 @@ public class ClientListener implements Runnable {
     }
 
     public boolean isServerResponse(String checkWord) {
-        if(checkWord.equals("--USERNAME-IS-TAKEN--"))
+        if(checkWord.equals("J_ERR"))
             return false;
-        else if(checkWord.equals("--USERNAME-IS-AVAILABLE--"))
+        else if(checkWord.equals("J_OK"))
         return true;
         return false;
     }

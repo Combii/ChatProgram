@@ -60,10 +60,6 @@ public class ServerListener implements Runnable{
 
     private void sendTextToClients(String text, InetAddress senderAddress) throws UnknownHostException, SocketException {
 
-
-        Client sender = identifyClient(senderAddress);
-        text = sender.getUsername() + ": " + text;
-
         for (Client c : users) {
             DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), c.getIp(),c.getPort());
             try {
@@ -72,7 +68,6 @@ public class ServerListener implements Runnable{
             } catch (IOException e) {
                 System.out.println("Message could not be sent");
             }
-
         }
 
     }
@@ -84,24 +79,30 @@ public class ServerListener implements Runnable{
         }
         
         return null;
-
     }
 
     private boolean isInChatRoom(InetAddress address) {
-
         for (Client c : users) {
             if(c.getIp().equals(address)) return true;
         }
-
         return false;
-
     }
 
-    private void sendUsers() throws IOException {
+    private synchronized Client identifyClientByUsername(String username) {
+        for (Client c : users) {
+            if (c.getUsername().equals(username)) return c;
+        }
+        return null;
+    }
+
+
+
+    public void sendUsers() throws IOException {
 
         String usernames = "--USERNAMES--" + getUsernames();
 
         for (Client c : users) {
+
             DatagramPacket p = new DatagramPacket(usernames.getBytes(),usernames.length(),c.getIp(),c.getPort());
             socket.send(p);
         }
@@ -114,6 +115,7 @@ public class ServerListener implements Runnable{
 
         for (Client c : users) {
             usernames += c.getUsername();
+
         }
 
         return usernames;
@@ -148,8 +150,8 @@ public class ServerListener implements Runnable{
 
     private boolean isKeyWord(String text, DatagramPacket request) throws IOException {
 
-        if(text.equals("--PING-CHECK--")) {
-            new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "PING-BACK")).start();
+        if(text.contains("--PING-CHECK--")) {
+            new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "ALVE")).start();
             return true;
 
         } else if(text.contains("--USERNAME--")) {
@@ -158,14 +160,14 @@ public class ServerListener implements Runnable{
                 synchronized (users) {
                     System.out.println("adding");
                     users.add(new Client(request.getAddress(), request.getPort(), username));
-                    new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "--USERNAME-IS-AVAILABLE--")).start();
-                    sendUsers();
+                    new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_OK")).start();
+                    //sendUsers();
                 }
             } else {
-                new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "--USERNAME-IS-TAKEN--")).start();
+                new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_ERR")).start();
             }
             return true;
-        } else if (text.equals("--QUIT--")) {
+        } else if (text.contains("--QUIT--")) {
             removeUser(request.getAddress());
             sendUsers();
             return true;
