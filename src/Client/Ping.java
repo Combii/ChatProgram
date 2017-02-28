@@ -27,11 +27,11 @@ public class Ping implements Runnable {
                 //Ping server every minute
                 Thread.sleep(10000);
                 conn.sendText(pingMessage);
-                new Thread(this::waitResponeFromServer).start();
-                //Wait for respone
+                new Thread(this::waitResponseFromServer).start();
+                //Wait for response
                 Thread.sleep(5000);
                 if(!responeFromServer)
-                    System.out.println("SERVER IS OFFLINE");
+                    EnterUsernameController.getController().chatBox.appendText("--SERVER IS OFFLINE--\n");
                 else
                     responeFromServer = false;
             } catch (InterruptedException e) {
@@ -41,7 +41,7 @@ public class Ping implements Runnable {
     }
 
 
-    private void waitResponeFromServer(){
+    private void waitResponseFromServer(){
                 String message;
                 try {
                     message = new ClientListener().receiveMessage();
