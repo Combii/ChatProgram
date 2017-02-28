@@ -97,18 +97,27 @@ public class ServerListener implements Runnable{
 
     }
 
-    public void sendUsers() throws IOException {
+    private void sendUsers() throws IOException {
 
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream(6400);
-        final ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(users);
-        final byte[] data = baos.toByteArray();
+        String usernames = "--USERNAMES--" + getUsernames();
 
         for (Client c : users) {
-
-            final DatagramPacket packet = new DatagramPacket(data, data.length, c.getIp(),c.getPort());
-
+            DatagramPacket p = new DatagramPacket(usernames.getBytes(),usernames.length(),c.getIp(),c.getPort());
+            socket.send(p);
         }
+
+    }
+    
+    private String getUsernames() {
+
+        String usernames = "";
+
+        for (Client c : users) {
+            usernames += c.getUsername();
+        }
+
+        return usernames;
+
     }
 
     private void respondToClient(InetAddress senderAddress, int port, String message) {
