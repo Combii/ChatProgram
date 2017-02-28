@@ -37,7 +37,7 @@ public class ServerListener implements Runnable{
             if(!isKeyWord(text,request)) {
                 new Thread(() -> {
                     try {
-                        sendTextToClients(text, request.getAddress());
+                        sendTextToClients(text);
                     } catch (UnknownHostException | SocketException e) {
                         e.printStackTrace();
                     }
@@ -48,15 +48,15 @@ public class ServerListener implements Runnable{
                 System.out.println(c);
             }
 
-            RunServer.getController().console.appendText(text + "\n");
 
+            RunServer.getController().console.appendText(text + "\n");
         }
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private void sendTextToClients(String text, InetAddress senderAddress) throws UnknownHostException, SocketException {
+    private void sendTextToClients(String text) throws UnknownHostException, SocketException {
 
         for (Client c : users) {
             DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), c.getIp(),c.getPort());
@@ -143,7 +143,6 @@ public class ServerListener implements Runnable{
             sendUsers();
             return true;
         }
-
         return false;
     }
 
