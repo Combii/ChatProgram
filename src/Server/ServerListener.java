@@ -33,6 +33,8 @@ public class ServerListener implements Runnable{
 
             System.out.println("Message received: " + text);
 
+            clientList.sendTextToClients(text);
+
             RunServer.getController().console.appendText(text + "\n");
         }
         }catch (Exception e){
