@@ -8,9 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.net.SocketException;
-import java.net.UnknownHostException;
-
 
 public class RunClient extends Application{
 
@@ -27,6 +24,9 @@ public class RunClient extends Application{
         primaryStage.setScene(new Scene(root));
         primaryStage.centerOnScreen();
         primaryStage.show();
+
+        //Makes sure program close when click red x in window
+        primaryStage.setOnCloseRequest(t -> System.exit(0));
     }
 
 

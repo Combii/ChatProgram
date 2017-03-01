@@ -10,8 +10,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 
 /**
  * Created by BorisGrunwald on 21/02/2017.
