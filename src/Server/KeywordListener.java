@@ -34,6 +34,7 @@ public class KeywordListener implements Runnable {
             }
             String keyword = new String(request.getData(),0,request.getLength());
             System.out.println("KEYWORD RECEIVED: " + keyword);
+            RunServer.getController().console.appendText("KEYWORD: " + keyword + "\n");
 
             clientList.checkKeyword(keyword,request);
         }

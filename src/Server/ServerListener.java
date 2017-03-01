@@ -24,17 +24,12 @@ public class ServerListener implements Runnable{
             
         while (true) {
             request = new DatagramPacket(new byte[1024], 1024);
-
-            System.out.println("Server is listening on port: " + socket.getLocalPort()+  " and ip: " + socket.getLocalAddress());
+            System.out.println("Server is listening on port: " + socket.getLocalPort());
 
             socket.receive(request);
-
             String text = new String(request.getData(), 0, request.getLength());
 
-            System.out.println("Message received: " + text);
-
             clientList.sendTextToClients(text);
-
             RunServer.getController().console.appendText(text + "\n");
         }
         }catch (Exception e){

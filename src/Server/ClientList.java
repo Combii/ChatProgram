@@ -79,7 +79,7 @@ public class ClientList {
         return true;
     }
 
-    void checkKeyword(String text, DatagramPacket request) {
+    protected void checkKeyword(String text, DatagramPacket request) {
 
         if(text.contains("--PING-CHECK--")) {
             respondToClient(request.getAddress(), request.getPort(), "ALVE");
@@ -87,7 +87,7 @@ public class ClientList {
         } else if(text.contains("--USERNAME--")) {
             String username = text.replaceAll("--USERNAME--","");
             if(isUniqueUsername(username)) {
-                    System.out.println("adding");
+                    System.out.println("Adding Username: " + username);
                     users.add(new Client(request.getAddress(), request.getPort(), username));
                     respondToClient(request.getAddress(), request.getPort(), "J_OK");
                     sendUsers();
