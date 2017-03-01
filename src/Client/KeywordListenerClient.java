@@ -6,7 +6,7 @@ import java.net.SocketException;
 /**
  * Created by BorisGrunwald on 28/02/2017.
  */
-public class ServerResponseListener implements Runnable {
+public class KeywordListenerClient implements Runnable {
 
     DatagramSocket socket;
 
