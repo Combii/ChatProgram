@@ -30,11 +30,7 @@ public class RunClient extends Application{
     }
 
 
-    public static void main(String[] args) throws SocketException, UnknownHostException {
-
-//        ServerConnection conn = ServerConnection.getConn();
-//        Runtime.getRuntime().addShutdownHook(new Thread(() -> conn.sendText("--QUIT--"), "Shutdown-thread"));
-
+    public static void main(String[] args){
         launch(args);
     }
 }

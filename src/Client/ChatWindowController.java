@@ -22,7 +22,7 @@ public class ChatWindowController {
 
 
     @FXML
-    public void initialize() throws UnknownHostException, SocketException {
+    public void initialize() throws SocketException, UnknownHostException {
         chatBox.setEditable(false);
         username.setText(EnterUsernameController.staticUsername);
         Thread ping = new Thread(new Ping());
@@ -34,6 +34,15 @@ public class ChatWindowController {
         } catch (SocketException e) {
             e.printStackTrace();
         }
+
+        //Shut down Thread
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                ServerConnection.getConn().sendKeyword("--QUIT--:" + username.getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, "Shutdown-thread"));
     }
 
     public void sendButton(ActionEvent actionEvent) throws SocketException, UnknownHostException {
@@ -43,8 +52,6 @@ public class ChatWindowController {
     }
 
     public void quitButton(ActionEvent actionEvent) throws IOException, InterruptedException {
-        ServerConnection conn = ServerConnection.getConn();
-        conn.sendKeyword("--QUIT--:" + username.getText());
         System.exit(0);
     }
 }

@@ -20,7 +20,7 @@ public class ServerListener implements Runnable{
     @Override
     public void run() {
         try{
-        socket = new DatagramSocket(1234,InetAddress.getByName("localhost"));
+        socket = new DatagramSocket(1234);
             
         while (true) {
             request = new DatagramPacket(new byte[1024], 1024);
