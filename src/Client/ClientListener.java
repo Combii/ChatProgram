@@ -30,8 +30,6 @@ public class ClientListener implements Runnable {
                         showOnlineUsers(text);
                     }
 
-                    System.out.println(text);
-
                     EnterUsernameController.getController().chatBox.appendText(text + "\n");
                 }
     }

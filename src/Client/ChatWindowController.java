@@ -44,7 +44,7 @@ public class ChatWindowController {
 
     public void quitButton(ActionEvent actionEvent) throws IOException, InterruptedException {
         ServerConnection conn = ServerConnection.getConn();
-        conn.sendKeyword("--QUIT--");
+        conn.sendKeyword("--QUIT--:" + username.getText());
         System.exit(0);
     }
 }

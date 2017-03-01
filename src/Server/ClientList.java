@@ -10,7 +10,7 @@ import java.util.Iterator;
  * 01 March 2017.
  */
 public class ClientList {
-    static final HashSet<Client> users = new HashSet<>();
+    static HashSet<Client> users = new HashSet<>();
     private DatagramSocket socket;
 
     public ClientList() throws SocketException {
@@ -61,10 +61,11 @@ public class ClientList {
         }
     }
 
-    private synchronized void removeUser(InetAddress senderAddress){
+    private synchronized void removeUser(String username){
+        System.out.println("REMOVING USERNAME: " + username);
         Iterator<Client> iterator = users.iterator();
         while(iterator.hasNext()){
-            if(iterator.next().getIp().equals(senderAddress)){
+            if(iterator.next().getUsername().equals(username)){
                 iterator.remove();
                 return;
             }
@@ -81,23 +82,20 @@ public class ClientList {
     void checkKeyword(String text, DatagramPacket request) throws InterruptedException {
 
         if(text.contains("--PING-CHECK--")) {
-            new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "ALVE")).start();
+            respondToClient(request.getAddress(), request.getPort(), "ALVE");
 
         } else if(text.contains("--USERNAME--")) {
             String username = text.replaceAll("--USERNAME--","");
             if(isUniqueUsername(username)) {
                     System.out.println("adding");
                     users.add(new Client(request.getAddress(), request.getPort(), username));
-
-                    Thread t = new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_OK"));
-                    t.start();
-                    t.join();
-                    new Thread(this::sendUsers).start();
+                    respondToClient(request.getAddress(), request.getPort(), "J_OK");
+                    sendUsers();
             } else {
-                new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_ERR")).start();
+                respondToClient(request.getAddress(), request.getPort(), "J_ERR");
             }
-        } else if (text.equals("--QUIT--")) {
-            removeUser(request.getAddress());
+        } else if (text.contains("--QUIT--:")) {
+            removeUser(text.substring(9, text.length()));
             sendUsers();
         }
     }
