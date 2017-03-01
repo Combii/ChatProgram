@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
@@ -41,9 +42,9 @@ public class ChatWindowController {
         textToSend.clear();
     }
 
-    public void quitButton(ActionEvent actionEvent) throws SocketException, UnknownHostException {
+    public void quitButton(ActionEvent actionEvent) throws IOException {
         ServerConnection conn = ServerConnection.getConn();
-        conn.sendText("--QUIT--");
+        conn.sendKeyword("--QUIT--");
         System.exit(0);
     }
 }

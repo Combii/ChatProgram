@@ -64,6 +64,7 @@ public class ClientList {
         for (Client c : users) {
             if(c.getIp().equals(senderAddress)){
                 users.remove(c);
+                break;
             }
         }
     }

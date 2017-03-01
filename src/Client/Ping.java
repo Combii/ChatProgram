@@ -26,10 +26,10 @@ public class Ping implements Runnable {
         while (true) {
             try {
                 //Ping server every minute
-                Thread.sleep(1000);
+                Thread.sleep(60000);
                 conn.sendKeyword(pingMessage);
                 //Wait for response
-                Thread.sleep(2000);
+                Thread.sleep(5000);
                 if (!responseFromServer)
                     EnterUsernameController.getController().chatBox.appendText("--SERVER-IS-OFFLINE--\n");
                 responseFromServer = false;
