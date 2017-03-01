@@ -26,8 +26,9 @@ public class ClientListener implements Runnable {
                     if (text.equals("ALVE")) {
                     Ping.responseFromServer = true;
                     }
-
-                    System.out.println(text);
+                    else if(text.contains("--USERNAMES--")){
+                        showOnlineUsers(text);
+                    }
 
                     EnterUsernameController.getController().chatBox.appendText(text + "\n");
                 }
@@ -54,6 +55,12 @@ public class ClientListener implements Runnable {
         else if(checkWord.equals("J_OK"))
         return true;
         return false;
+    }
+
+
+    private void showOnlineUsers(String users){
+        users = users.replaceAll("--USERNAMES--", "");
+        EnterUsernameController.getController().onlineUsers.setText(users);
     }
 
 

@@ -1,5 +1,6 @@
 package Client;
 
+import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
@@ -25,13 +26,14 @@ public class Ping implements Runnable {
         while (true) {
             try {
                 //Ping server every minute
-                Thread.sleep(10000);
-                conn.sendText(pingMessage);
+                Thread.sleep(60000);
+                conn.sendKeyword(pingMessage);
                 //Wait for response
                 Thread.sleep(5000);
                 if (!responseFromServer)
                     EnterUsernameController.getController().chatBox.appendText("--SERVER-IS-OFFLINE--\n");
-            } catch (InterruptedException e) {
+                responseFromServer = false;
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         }

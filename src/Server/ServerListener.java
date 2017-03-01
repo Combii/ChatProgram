@@ -4,16 +4,18 @@ package Server;
  * 16 February 2017.
  */
 
-import java.io.IOException;
 import java.net.*;
-import java.util.HashSet;
 
 
 public class ServerListener implements Runnable{
 
     DatagramSocket socket;
     DatagramPacket request;
-    private final HashSet<Client> users = new HashSet<>();
+    ClientList clientList;
+
+    public ServerListener() throws SocketException {
+        clientList = new ClientList();
+    }
 
     @Override
     public void run() {
@@ -27,27 +29,11 @@ public class ServerListener implements Runnable{
 
             socket.receive(request);
 
-
-            System.out.println("Message received!");
-
             String text = new String(request.getData(), 0, request.getLength());
 
-            System.out.println(text);
+            System.out.println("Message received: " + text);
 
-            if(!isKeyWord(text,request)) {
-                new Thread(() -> {
-                    try {
-                        sendTextToClients(text);
-                    } catch (UnknownHostException | SocketException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-            }
-
-            for (Client c : users) {
-                System.out.println(c);
-            }
-
+            clientList.sendTextToClients(text);
 
             RunServer.getController().console.appendText(text + "\n");
         }
@@ -56,117 +42,5 @@ public class ServerListener implements Runnable{
         }
     }
 
-    private void sendTextToClients(String text) throws UnknownHostException, SocketException {
-
-        for (Client c : users) {
-            DatagramPacket p = new DatagramPacket(text.getBytes(),text.length(), c.getIp(),c.getPort());
-            try {
-                System.out.println("PORT SENDING: " + c.getPort() + " " + c.getIp() + " " + c.getUsername());
-                socket.send(p);
-            } catch (IOException e) {
-                System.out.println("Message could not be sent");
-            }
-        }
-
-    }
-
-    public void sendUsers() throws IOException {
-
-        String usernames = "--USERNAMES--" + getUsernames();
-
-        for (Client c : users) {
-
-            DatagramPacket p = new DatagramPacket(usernames.getBytes(),usernames.length(),c.getIp(),c.getPort());
-            socket.send(p);
-        }
-
-    }
-    
-    private String getUsernames() {
-
-        String usernames = "";
-
-        for (Client c : users) {
-            usernames += c.getUsername() + " ";
-
-        }
-
-        return usernames;
-
-    }
-
-    private void respondToClient(InetAddress senderAddress, int port, String message) {
-        try {
-            DatagramPacket p = new DatagramPacket(message.getBytes(),message.length(), senderAddress, port);
-            socket.send(p);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private synchronized void removeUser(InetAddress senderAddress){
-        for (Client c : users) {
-            if(c.getIp().equals(senderAddress)){
-                users.remove(c);
-            }
-        }
-    }
-
-    private boolean isUniqueUsername(String username) {
-        for (Client c : users) {
-            if(c.getUsername().equals(username)) return false;
-        }
-        return true;
-    }
-
-    private boolean isKeyWord(String text, DatagramPacket request) throws IOException {
-
-        if(text.contains("--PING-CHECK--")) {
-            new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "ALVE")).start();
-            return true;
-
-        } else if(text.contains("--USERNAME--")) {
-            String username = text.replaceAll("--USERNAME--","");
-            if(isUniqueUsername(username)) {
-                synchronized (users) {
-                    System.out.println("adding");
-                    users.add(new Client(request.getAddress(), request.getPort(), username));
-                    new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_OK")).start();
-                    //sendUsers();
-                }
-            } else {
-                new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_ERR")).start();
-            }
-            return true;
-        } else if (text.contains("--QUIT--")) {
-            removeUser(request.getAddress());
-            sendUsers();
-            return true;
-        }
-        return false;
-    }
-
-
-
-    private synchronized Client identifyClient(InetAddress ip) {
-
-        for (Client c : users) {
-            if (c.getIp().equals(ip)) return c;
-        }
-
-        return null;
-    }
-    private boolean isInChatRoom(InetAddress address) {
-        for (Client c : users) {
-            if(c.getIp().equals(address)) return true;
-        }
-        return false;
-    }
-    private synchronized Client identifyClientByUsername(String username) {
-        for (Client c : users) {
-            if (c.getUsername().equals(username)) return c;
-        }
-        return null;
-    }
 
 }

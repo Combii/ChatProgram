@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.SocketException;
+
 
 public class RunServer extends Application{
 
@@ -31,10 +33,12 @@ public class RunServer extends Application{
     }
 
 
-    public static void main(String[] args) {
-        Thread thread = new Thread(new ServerListener());
-        thread.start();
+    public static void main(String[] args) throws SocketException {
+
+        new Thread(new ServerListener()).start();
+        new Thread(new KeywordListener()).start();
 
         launch(args);
+
     }
 }
