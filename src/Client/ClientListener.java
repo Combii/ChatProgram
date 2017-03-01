@@ -59,7 +59,6 @@ public class ClientListener implements Runnable {
         return false;
     }
 
-
     private void showOnlineUsers(String users){
         users = users.replaceAll("--USERNAMES--", "");
         EnterUsernameController.getController().onlineUsers.setText(users);

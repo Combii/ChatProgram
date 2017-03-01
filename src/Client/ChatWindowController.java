@@ -24,6 +24,7 @@ public class ChatWindowController {
     @FXML
     public void initialize() throws SocketException, UnknownHostException {
         chatBox.setEditable(false);
+        onlineUsers.setEditable(false);
         username.setText(EnterUsernameController.staticUsername);
         Thread ping = new Thread(new Ping());
         ping.start();
