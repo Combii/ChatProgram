@@ -42,7 +42,7 @@ public class ChatWindowController {
         textToSend.clear();
     }
 
-    public void quitButton(ActionEvent actionEvent) throws IOException {
+    public void quitButton(ActionEvent actionEvent) throws IOException, InterruptedException {
         ServerConnection conn = ServerConnection.getConn();
         conn.sendKeyword("--QUIT--");
         System.exit(0);

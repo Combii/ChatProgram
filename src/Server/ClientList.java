@@ -3,6 +3,7 @@ package Server;
 import java.io.IOException;
 import java.net.*;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Created by David Stovlbaek
@@ -61,10 +62,11 @@ public class ClientList {
     }
 
     private synchronized void removeUser(InetAddress senderAddress){
-        for (Client c : users) {
-            if(c.getIp().equals(senderAddress)){
-                users.remove(c);
-                break;
+        Iterator<Client> iterator = users.iterator();
+        while(iterator.hasNext()){
+            if(iterator.next().getIp().equals(senderAddress)){
+                iterator.remove();
+                return;
             }
         }
     }
@@ -94,9 +96,9 @@ public class ClientList {
             } else {
                 new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_ERR")).start();
             }
-        } else if (text.contains("--QUIT--")) {
+        } else if (text.equals("--QUIT--")) {
             removeUser(request.getAddress());
-            new Thread(this::sendUsers).start();
+            sendUsers();
         }
     }
 }
