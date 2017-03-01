@@ -49,11 +49,13 @@ public class ClientListener implements Runnable {
         return null;
     }
 
-    public boolean isServerResponse(String checkWord) {
+    public boolean isKeyWord(String checkWord) {
         if(checkWord.equals("J_ERR"))
             return false;
         else if(checkWord.equals("J_OK"))
         return true;
+        else if (checkWord.equals("ALVE"))
+            Ping.responseFromServer = true;
         return false;
     }
 

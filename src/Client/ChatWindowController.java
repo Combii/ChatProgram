@@ -51,7 +51,7 @@ public class ChatWindowController {
         textToSend.clear();
     }
 
-    public void quitButton(ActionEvent actionEvent) throws IOException, InterruptedException {
+    public void quitButton(ActionEvent actionEvent) {
         System.exit(0);
     }
 }

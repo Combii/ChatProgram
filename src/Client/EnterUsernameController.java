@@ -70,6 +70,6 @@ public class EnterUsernameController {
         String receiveText = listener.receiveMessage();
         System.out.println(receiveText);
 
-        return listener.isServerResponse(receiveText);
+        return listener.isKeyWord(receiveText);
     }
 }

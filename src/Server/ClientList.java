@@ -18,7 +18,7 @@ public class ClientList {
     }
 
 
-    synchronized void sendTextToClients(String text) throws UnknownHostException, SocketException {
+    synchronized void sendTextToClients(String text) {
 
         for (Client c : users) {
            respondToClient(c.getIp(), c.getPort(), text);
@@ -79,7 +79,7 @@ public class ClientList {
         return true;
     }
 
-    void checkKeyword(String text, DatagramPacket request) throws InterruptedException {
+    void checkKeyword(String text, DatagramPacket request) {
 
         if(text.contains("--PING-CHECK--")) {
             respondToClient(request.getAddress(), request.getPort(), "ALVE");
