@@ -35,11 +35,7 @@ public class KeywordListener implements Runnable {
             String keyword = new String(request.getData(),0,request.getLength());
             System.out.println("KEYWORD RECEIVED: " + keyword);
 
-            try {
-                clientList.checkKeyword(keyword,request);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            clientList.checkKeyword(keyword,request);
         }
         }
 

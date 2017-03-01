@@ -23,13 +23,7 @@ public class ClientListener implements Runnable {
                 while (true) {
                     String text = receiveMessage();
 
-                    if (text.equals("ALVE")) {
-                    Ping.responseFromServer = true;
-                    }
-                    else if(text.contains("--USERNAMES--")){
-                        showOnlineUsers(text);
-                    }
-
+                    if(!isKeyWord(text))
                     EnterUsernameController.getController().chatBox.appendText(text + "\n");
                 }
     }
@@ -48,14 +42,20 @@ public class ClientListener implements Runnable {
             }
         return null;
     }
-
-    public boolean isKeyWord(String checkWord) {
-        if(checkWord.equals("J_ERR"))
-            return false;
-        else if(checkWord.equals("J_OK"))
-        return true;
-        else if (checkWord.equals("ALVE"))
+    
+    private boolean isKeyWord(String checkMessage){
+        if (checkMessage.equals("ALVE")) {
             Ping.responseFromServer = true;
+            return true;
+        }
+        else if(checkMessage.contains("--USERNAMES--")) {
+            showOnlineUsers(checkMessage);
+            return true;
+        }
+        else if(checkMessage.contains("--USERNAMES--")){
+            showOnlineUsers(checkMessage);
+            return true;
+        }
         return false;
     }
 

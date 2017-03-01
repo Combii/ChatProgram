@@ -52,10 +52,6 @@ public class EnterUsernameController {
         }
     }
 
-    public static ChatWindowController getController(){
-        return loader.getController();
-    }
-
     private boolean checkUsernameValid(String userName){
         return userName.matches("^[a-zA-Z0-9_-]*$") && userName.length() <= 12 && userName.length() != 0;
     }
@@ -70,6 +66,18 @@ public class EnterUsernameController {
         String receiveText = listener.receiveMessage();
         System.out.println(receiveText);
 
-        return listener.isKeyWord(receiveText);
+        return checkUsername(receiveText);
+    }
+
+    private boolean checkUsername(String checkMessage) {
+        if(checkMessage.equals("J_ERR"))
+            return false;
+        else if(checkMessage.equals("J_OK"))
+            return true;
+        return false;
+    }
+
+    public static ChatWindowController getController(){
+        return loader.getController();
     }
 }
