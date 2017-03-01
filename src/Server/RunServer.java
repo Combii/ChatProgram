@@ -32,9 +32,11 @@ public class RunServer extends Application{
 
 
     public static void main(String[] args) {
-        Thread thread = new Thread(new ServerListener());
-        thread.start();
+
+        new Thread(new ServerListener());
+        new Thread(new KeywordListener());
 
         launch(args);
+
     }
 }
