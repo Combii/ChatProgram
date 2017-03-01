@@ -85,9 +85,11 @@ public class ClientList {
             if(isUniqueUsername(username)) {
                     System.out.println("adding");
                     users.add(new Client(request.getAddress(), request.getPort(), username));
+
                     Thread t = new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_OK"));
+                    t.start();
                     t.join();
-                    new Thread(this::sendUsers);
+                    new Thread(this::sendUsers).start();
             } else {
                 new Thread(() -> respondToClient(request.getAddress(), request.getPort(), "J_ERR")).start();
             }

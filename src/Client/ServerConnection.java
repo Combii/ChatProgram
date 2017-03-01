@@ -48,6 +48,6 @@ public class ServerConnection {
 
         DatagramPacket p = new DatagramPacket(keyword.getBytes(),keyword.length(),serverIP,keyWordPort);
         socket.send(p);
-
+        System.out.println("SENT KEYWORD: " + keyword);
     }
 }

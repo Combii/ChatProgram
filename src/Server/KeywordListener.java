@@ -26,10 +26,7 @@ public class KeywordListener implements Runnable {
     @Override
     public void run() {
 
-
-
         while (true) {
-
             request = new DatagramPacket(new byte[1024],1024);
 
             try {
@@ -37,9 +34,8 @@ public class KeywordListener implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             String keyword = new String(request.getData(),0,request.getLength());
-
+            System.out.println("KEYWORD RECEIVED: " + keyword);
 
             try {
                 clientList.checkKeyword(keyword,request);

@@ -31,7 +31,7 @@ public class EnterUsernameController {
     public void wowButtonClicked(ActionEvent actionEvent) {
     }
 
-    public void okButtonClicked(ActionEvent actionEvent) throws SocketException, UnknownHostException {
+    public void okButtonClicked(ActionEvent actionEvent) throws IOException {
         if(!checkUsernameValid(userName.getText())){
             warningMessage.setText("Username must be max 12 chars long, only letters, digits, ‘-‘ and ‘_’ allowed!");
         }
@@ -62,11 +62,11 @@ public class EnterUsernameController {
         return userName.matches("^[a-zA-Z0-9_-]*$") && userName.length() <= 12 && userName.length() != 0;
     }
 
-    private boolean checkUsernameIsUnique(String userName) throws SocketException, UnknownHostException {
+    private boolean checkUsernameIsUnique(String userName) throws IOException {
         ClientListener listener = new ClientListener();
 
         ServerConnection conn = ServerConnection.getConn();
-        conn.sendText("--USERNAME--" + userName);
+        conn.sendKeyword("--USERNAME--" + userName);
 
 
         String receiveText = listener.receiveMessage();
